@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 import cloudgenix
-from cloudgenix import jd, jd_detailed
-
 import argparse
 from cloudgenix import jd, jd_detailed
 import cloudgenix_settings
