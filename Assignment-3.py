@@ -110,14 +110,14 @@ def get(cgx):
     
     
     csv_columns = ['Site_Name', 'Region']
-    csv_file = "ion_list.csv"
+    csv_file = "site_regions.csv"
     try:
         with open(csv_file, 'w') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
             writer.writeheader()
             for data in ion_list:
                 writer.writerow(data)
-            print("Saved ion_list.csv file")
+            print("Saved site_regions.csv file")
     except IOError:
         print("CSV Write Failed")
     
