@@ -1,6 +1,8 @@
 # Prisma SD-WAN Base (Preview)
 The is just a base script to login to the controller
 
+Assignments 1-3 are only used for the training workshop and can be ignored if you are just using the base.py file 
+
 #### License
 MIT
 
