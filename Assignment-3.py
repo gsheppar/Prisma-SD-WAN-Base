@@ -101,11 +101,26 @@ def get(cgx):
     
     #### Your Code Goes Here #####
     
-    print("You should have removed this section with your code ")
+    for sites in cgx.get.sites().cgx_content['items']:
+        if sites["element_cluster_role"] == "SPOKE":
+            print("You should have removed this section with your code ")
+            #### example start #####
+            coordinates = (35.85522398035947, -118.38336067394894)
+            print(find_region(coordinates))
     
-    #### example start #####
-    coordinates = (35.85522398035947, -118.38336067394894)
-    print(find_region(coordinates))
+    
+    csv_columns = ['Site_Name', 'Region']
+    csv_file = "ion_list.csv"
+    try:
+        with open(csv_file, 'w') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+            writer.writeheader()
+            for data in ion_list:
+                writer.writerow(data)
+            print("Saved ion_list.csv file")
+    except IOError:
+        print("CSV Write Failed")
+    
     
     return
 
