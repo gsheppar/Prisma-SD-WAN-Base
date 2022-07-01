@@ -197,7 +197,7 @@ def spn_panorama():
         print(regions)
     return
     
-def onboarding():
+def onboarding_panorama():
     if PANORAMA_IP == None or PANORAMA_API_KEY == None:
         print("Sorry no Panorama IP or APK Key configured")
         return
