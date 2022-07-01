@@ -6,4 +6,8 @@
 #CLOUDGENIX_PASSWORD = ''
 
 ### Instead of CLOUDGENIX_USER or CLOUDGENIX_PASSWORD, you can set CLOUDGENIX_AUTH_TOKEN instead.
-### CLOUDGENIX_AUTH_TOKEN = "here"
+#CLOUDGENIX_AUTH_TOKEN = "Here"
+
+### Panorama Info
+#PANORAMA_IP = "here"
+#PANORAMA_API_KEY = "here"

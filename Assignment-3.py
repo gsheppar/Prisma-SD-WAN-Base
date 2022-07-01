@@ -12,8 +12,12 @@ import datetime
 import collections
 import csv 
 from geopy import distance
+import xmltodict
+import requests
+import urllib3
 
 
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Global Vars
 TIME_BETWEEN_API_UPDATES = 60       # seconds
@@ -52,6 +56,14 @@ except ImportError:
     CLOUDGENIX_USER = None
     CLOUDGENIX_PASSWORD = None
 
+try:
+    from cloudgenix_settings import PANORAMA_IP, PANORAMA_API_KEY
+
+except ImportError:
+    # will get caught below
+    PANORAMA_IP = None
+    PANORAMA_API_KEY = None
+
 paList = [
 	{
 		'name':"us-east-1",
@@ -80,7 +92,7 @@ paList = [
 	},
 	{
 		'name':"us-west-201",
-        'region' : "US Soutwest",
+        'region' : "US Southwest",
         'coordinates': (34.0522, -118.2437)
 	},
 	{
@@ -100,13 +112,20 @@ def get(cgx):
     ion_list = []
     
     #### Your Code Goes Here #####
-    
     for sites in cgx.get.sites().cgx_content['items']:
         if sites["element_cluster_role"] == "SPOKE":
-            print("You should have removed this section with your code ")
+            #print("You should have removed this section with your code ")
             #### example start #####
-            coordinates = (35.85522398035947, -118.38336067394894)
-            print(find_region(coordinates))
+            coordinates = {}
+            coordinates['latitude'] = 35.85522398035947 
+            coordinates['longitude'] = -118.38336067394894
+            
+            region = None
+            #### Standalone Example #####
+            region = find_region(coordinates))
+            print(region)
+            #### Panorama Example #####
+            #region = find_region_panorama(coordinates)
     
     
     csv_columns = ['Site_Name', 'Region']
@@ -124,8 +143,9 @@ def get(cgx):
     
     return
 
-def find_region(site_coordinates):
+def find_region(coordinates):
     
+    site_coordinates = (coordinates['latitude'], coordinates['longitude'])
     best_region = None
     best_distance = None
     
@@ -141,7 +161,60 @@ def find_region(site_coordinates):
     
     return best_region
     
-                                          
+def find_region_panorama(coordinates):
+    best_region = None
+    if PANORAMA_IP == None or PANORAMA_API_KEY == None:
+        print("Sorry no Panorama IP or APK Key configured")
+        return best_region
+    
+    xml_command = "/api/?type=op&cmd=<request><plugins><cloud_services><prisma-access><get-best-locations-by-latitude-longitude><nr-locations>1</nr-locations><latitude>"+str(coordinates['latitude'])+"</latitude><longitude>"+str(coordinates['longitude'])+"</longitude></get-best-locations-by-latitude-longitude></prisma-access></cloud_services></plugins></request>"
+    api_url = "https://"+PANORAMA_IP+xml_command+"&key="+PANORAMA_API_KEY
+    urllib3.disable_warnings()
+    api_request = requests.get(url=api_url,verify=False)
+    api_response = api_request.text
+
+    data = xmltodict.parse(api_response)
+    best_region = data["response"]["result"]["result"]["msg"]["location_info"]["entry"]["edge_location_name"]
+    return best_region
+
+def spn_panorama():
+    if PANORAMA_IP == None or PANORAMA_API_KEY == None:
+        print("Sorry no Panorama IP or APK Key configured")
+        return
+    xml_command = "/api/?type=config&action=get&xpath=/config/devices/entry[@name='localhost.localdomain']/plugins/cloud_services/remote-networks/agg-bandwidth/region"
+    api_url = "https://"+PANORAMA_IP+xml_command+"&key="+PANORAMA_API_KEY
+    urllib3.disable_warnings()
+    api_request = requests.get(url=api_url,verify=False)
+    api_response = api_request.text
+
+    data = xmltodict.parse(api_response)
+    regions = data["response"]["result"]["region"]["entry"]
+    if type(regions) == list:
+        for region in regions:
+            print(region)
+    else:
+        print(regions)
+    return
+    
+def onboarding():
+    if PANORAMA_IP == None or PANORAMA_API_KEY == None:
+        print("Sorry no Panorama IP or APK Key configured")
+        return
+    xml_command = "/api/?type=config&action=get&xpath=/config/devices/entry[@name='localhost.localdomain']/plugins/cloud_services/remote-networks/onboarding"
+    api_url = "https://"+PANORAMA_IP+xml_command+"&key="+PANORAMA_API_KEY
+    urllib3.disable_warnings()
+    api_request = requests.get(url=api_url,verify=False)
+    api_response = api_request.text
+
+    data = xmltodict.parse(api_response)
+    onboarding = data["response"]["result"]["onboarding"]["entry"]
+    if type(onboarding) == list:
+        for item in onboarding:
+            print(item)
+    else:
+        print(onboarding)
+    return
+                                      
 def go():
     ############################################################################
     # Begin Script, parse arguments.
