@@ -114,7 +114,8 @@ def get(cgx):
     #### Your Code Goes Here #####
     for sites in cgx.get.sites().cgx_content['items']:
         if sites["element_cluster_role"] == "SPOKE":
-            #print("You should have removed this section with your code ")
+            print("You should have removed this section with your code ")
+            return
             #### example start #####
             coordinates = {}
             coordinates['latitude'] = 35.85522398035947 
