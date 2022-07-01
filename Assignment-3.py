@@ -122,7 +122,7 @@ def get(cgx):
             
             region = None
             #### Standalone Example #####
-            region = find_region(coordinates))
+            region = find_region(coordinates)
             print(region)
             #### Panorama Example #####
             #region = find_region_panorama(coordinates)
