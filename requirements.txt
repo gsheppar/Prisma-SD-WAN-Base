@@ -7,3 +7,4 @@ idna==3.3
 requests==2.28.0
 urllib3==1.26.9
 websockets==10.3
+xmltodict==0.13.0
