@@ -1,13 +1,13 @@
 # Prisma SD-WAN Base (Preview)
 The is just a base script to login to the controller
 
-Assignments 1-3 are only used for the training workshop and can be ignored if you are just using the base.py file 
+Assignments 1-2 are only used for the training workshop and can be ignored if you are just using the base.py file 
 
 #### License
 MIT
 
 #### Requirements
-* Active CloudGenix Account - Please generate your API token and add it to cloudgenix_settings.py
+* Active Prisma SD-WAN Account - Please generate your API token and add it to prismasase_settings.py
 * Python >=3.6
 
 #### Installation:
@@ -16,7 +16,7 @@ MIT
  - pip install -r requirements.txt
 
 ### Examples of usage:
- Please generate your API token and add it to cloudgenix_settings.py
+ Please generate your service account and add it to prismasase_settings.py
  
  - ./base.py 
  
@@ -28,6 +28,3 @@ MIT
 | ------- | ----- | ------- |
 | **1.0.0** | **b1** | Initial Release. |
 
-
-#### For more info
- * Get help and additional Prisma SD-WAN Documentation at <https://docs.paloaltonetworks.com/prisma/cloudgenix-sd-wan.html>
